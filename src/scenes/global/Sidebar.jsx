@@ -80,7 +80,7 @@ const Sidebar = () => {
                 ml="15px"
               >
                 <Typography variant="h4" color={colors.grey[100]}>
-                  DEM
+                  ZTS
                 </Typography>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                   <MenuOutlinedIcon />
@@ -88,6 +88,32 @@ const Sidebar = () => {
               </Box>
             )}
           </MenuItem>
+
+          {!isCollapsed && (
+            <Box mb="25px">
+              <Box display="flex" justifyContent="center" alignItems="center">
+                <img
+                  alt="profile-user"
+                  height="50px"
+                  src={`../../assets/25.png`}
+                  style={{ cursor: "pointer", borderRadius: "50%" }}
+                />
+              </Box>
+              <Box textAlign="center">
+                <Typography
+                  variant="h3"
+                  color={colors.grey[100]}
+                  fontWeight="bold"
+                  sx={{ m: "10px 0 0 0" }}
+                >
+                  Toor
+                </Typography>
+                <Typography variant="h6" color={colors.greenAccent[500]}>
+                  VP Zero Trust
+                </Typography>
+              </Box>
+            </Box>
+          )}
 
           {/* MENU ITEMS */}
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
