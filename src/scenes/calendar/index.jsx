@@ -65,7 +65,7 @@ const Calendar = () => {
               <ListItem
                 key={event.id}
                 sx={{
-                  backgroundColor: colors.greenAccent[500],
+                  backgroundColor: colors.primary[700],
                   margin: "10px 0",
                   borderRadius: "2px",
                 }}
@@ -114,12 +114,12 @@ const Calendar = () => {
               {
                 id: "12315",
                 title: "All-day event",
-                date: "2022-09-14",
+                date: "2023-04-05",
               },
               {
                 id: "5123",
                 title: "Timed event",
-                date: "2022-09-28",
+                date: "2023-04-10",
               },
             ]}
           />
