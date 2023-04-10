@@ -108,7 +108,7 @@ const Sidebar = () => {
                 >
                   Toor
                 </Typography>
-                <Typography variant="h6" color={colors.greenAccent[500]}>
+                <Typography variant="h6" color={colors.grey[300]}>
                   VP Zero Trust
                 </Typography>
               </Box>
