@@ -16,6 +16,8 @@ import Pie from "./scenes/pie";
 import Line from "./scenes/line";
 import Geography from "./scenes/geography";
 import HomePage from "./scenes/home";
+import RouteGuard from "./helpers/RouteGuard";
+import { securityGroups } from "./authConfig";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -30,8 +32,17 @@ function App() {
           <main className="content">
             <Topbar setIsSidebar={setIsSidebar} />
             <Routes>
-            <Route path="/" element={<HomePage />} />
-              <Route path="/admin" element={<Dashboard />} />
+              <Route path="/" element={<HomePage />} />
+              <Route 
+                exact
+                path="/admin" 
+                element={
+                  <RouteGuard
+                    requiredGroups={[securityGroups.GroupOne, securityGroups.GroupAdminUser, securityGroups.GroupStandardUser]}
+                    Component={Dashboard}
+                  />
+                }
+              />
               <Route path="/team" element={<Team />} />
               <Route path="/contacts" element={<Contacts />} />
               <Route path="/invoices" element={<Invoices />} />
