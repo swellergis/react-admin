@@ -1,3 +1,4 @@
+import { useState, forwardRef } from 'react';
 import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 import { mockTransactions } from "../../data/mockData";
@@ -12,16 +13,57 @@ import GeographyChart from "../../components/GeographyChart";
 import BarChart from "../../components/BarChart";
 import StatBox from "../../components/StatBox";
 import ProgressCircle from "../../components/ProgressCircle";
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 const Dashboard = () => {
+  const [open, setOpen] = useState(false);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const Alert = forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+
+  const handleAlertClose = (event, reason) => {
+    if (reason === 'clickaway') 
+    {
+        return;
+    }
+    setOpen(false);
+  };
+
+  const handleSubmit = async () => {
+    fetch('https://atarcapi.eastus.cloudapp.azure.com/download')
+    .then((res) => res.json())
+    .then((json_data) => {
+        // console.log(json_data.coordinates.length);
+        // console.info(json_data.coordinates[0]);
+
+        const fileName = "mock-geojson-api.json";
+        const data = new Blob([JSON.stringify(json_data)], { type: "text/json" });
+        const jsonURL = window.URL.createObjectURL(data);
+        const link = document.createElement("a");
+        document.body.appendChild(link);
+        link.href = jsonURL;
+        link.setAttribute("download", fileName);
+        link.click();
+        document.body.removeChild(link);
+
+        // console.info("download succeeded, number of coordinate objects:", json_data.coordinates.length);
+        console.info("download succeeded; file-name= ", fileName);
+    })
+    .catch((error) => {
+        setOpen(true);
+        console.error(error);
+    });
+  }
 
   return (
     <Box m="20px">
       {/* HEADER */}
       <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Header title="DASHBOARD" subtitle="Welcome to your dashboard" />
+        <Header title="ADMIN PANEL" subtitle="Do some admin stuff here..." />
 
         <Box>
           <Button
@@ -32,6 +74,7 @@ const Dashboard = () => {
               fontWeight: "bold",
               padding: "10px 20px",
             }}
+            onClick={handleSubmit}
           >
             <DownloadOutlinedIcon sx={{ mr: "10px" }} />
             Download Reports
@@ -277,6 +320,12 @@ const Dashboard = () => {
           </Box>
         </Box>
       </Box>
+
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleAlertClose}>
+        <Alert onClose={handleAlertClose} severity="error" sx={{ width: '100%' }}>
+          Unable to download data, see logs...
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

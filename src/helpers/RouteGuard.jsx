@@ -40,18 +40,18 @@ export const RouteGuard = ({ Component, ...props }) => {
                         ?
                         <Component />
                         :
-                        <div className="container">
-                            <h4 className="not-found">You are not authorized for this content.</h4>
+                        <div className="container" align="center">
+                            <h1 className="not-found">Unauthorized!</h1>
                         </div>
                 }
             </AuthenticatedTemplate>
             <UnauthenticatedTemplate>
                 <div className="container">
                     <Typography 
+                        mt="10px"
                         align="center" 
-                        variant="h4" 
+                        variant="h2" 
                         color="silver" 
-                        gutterBottom
                     >
                         You need to sign in to access this content.
                     </Typography>
