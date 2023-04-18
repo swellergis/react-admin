@@ -19,7 +19,7 @@ import HomePage from "./scenes/home";
 import RouteGuard from "./helpers/RouteGuard";
 import { securityGroups } from "./authConfig";
 
-function App() {
+const App = () => {
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);
 
