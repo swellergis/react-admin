@@ -17,10 +17,12 @@ import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import { useNavigate } from 'react-router-dom';
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
   return (
     <MenuItem
       active={selected === title}
@@ -41,6 +43,7 @@ const Sidebar2 = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
+  const navigate = useNavigate();
 
   return (
     <Box
@@ -93,11 +96,12 @@ const Sidebar2 = () => {
           {!isCollapsed && (
             <Box mb="25px">
               <Box display="flex" justifyContent="center" alignItems="center">
-                <img
+              <img
                   alt="profile-user"
                   height="50px"
-                  src={`../../assets/25.png`}
+                  src={'../../assets/25.png'}
                   style={{ cursor: "pointer", borderRadius: "50%" }}
+                  onClick={() => navigate('/')}
                 />
               </Box>
               <Box textAlign="center">
