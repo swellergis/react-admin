@@ -101,7 +101,10 @@ const Sidebar2 = () => {
                   height="50px"
                   src={'../../assets/25.png'}
                   style={{ cursor: "pointer", borderRadius: "50%" }}
-                  onClick={() => navigate('/')}
+                  onClick={() => {
+                    navigate('/');
+                    setSelected("Home");
+                  }}
                 />
               </Box>
               <Box textAlign="center">
