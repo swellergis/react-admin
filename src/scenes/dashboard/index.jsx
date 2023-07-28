@@ -73,6 +73,7 @@ const Dashboard = () => {
               fontSize: "14px",
               fontWeight: "bold",
               padding: "10px 20px",
+              display: "none"
             }}
             onClick={handleSubmit}
           >
