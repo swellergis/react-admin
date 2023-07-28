@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
@@ -6,51 +7,57 @@ import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
 
 const Contacts = () => {
+  const [data, setData] = useState("");
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   const columns = [
     { field: "id", headerName: "ID", flex: 0.5 },
-    { field: "registrarId", headerName: "Registrar ID" },
+    // { field: "registrarId", headerName: "Registrar ID" },
     {
-      field: "name",
-      headerName: "Name",
+      field: "firstName",
+      headerName: "First Name",
       flex: 1,
       cellClassName: "name-column--cell",
     },
     {
-      field: "age",
-      headerName: "Age",
-      type: "number",
+      field: "lastName",
+      headerName: "Last Name",
+      flex: 1,
+      cellClassName: "name-column--cell",
+    },
+    {
+      field: "dob",
+      headerName: "DOB",
+      // type: "number",
       headerAlign: "left",
       align: "left",
-    },
-    {
-      field: "phone",
-      headerName: "Phone Number",
-      flex: 1,
-    },
-    {
-      field: "email",
-      headerName: "Email",
-      flex: 1,
-    },
-    {
-      field: "address",
-      headerName: "Address",
-      flex: 1,
     },
     {
       field: "city",
       headerName: "City",
       flex: 1,
     },
-    {
-      field: "zipCode",
-      headerName: "Zip Code",
-      flex: 1,
-    },
   ];
+
+  useEffect(() => {
+    const url = "http://localhost:8080/jpa-basic/rest/customer";
+
+    const fetchData = async () => {
+      try {
+        const response = await fetch(url);
+        const json = await response.json();
+        // console.log(json[0]);
+        // console.log(json[0].city);
+        console.log(json);
+        setData(json);
+      } catch (error) {
+        console.log("error", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <Box m="20px">
@@ -91,7 +98,7 @@ const Contacts = () => {
         }}
       >
         <DataGrid
-          rows={mockDataContacts}
+          rows={data}
           columns={columns}
           components={{ Toolbar: GridToolbar }}
         />
