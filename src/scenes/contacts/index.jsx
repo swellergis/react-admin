@@ -41,7 +41,10 @@ const Contacts = () => {
   ];
 
   useEffect(() => {
-    const url = "http://localhost:8080/jpa-basic/rest/customer";
+    // wildfly
+    // const url = "http://localhost:8080/jpa-basic/rest/customer";
+    // vertx
+    const url = "http://localhost:8080/customers";
 
     const fetchData = async () => {
       try {
