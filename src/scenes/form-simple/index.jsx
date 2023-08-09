@@ -28,7 +28,7 @@ const FormSimple = () => {
     setOpen(false);
   };
 
-  const handleFormSubmit = (values) => {
+  const handleFormSubmit = (values, { resetForm }) => {
     values.empId = username;
 
     const target = "http://localhost:8080/comments";
@@ -37,6 +37,8 @@ const FormSimple = () => {
         body: JSON.stringify(values),
         headers: { 'Content-Type': 'application/json' }
     });
+
+    resetForm();
 
     comments.push(values);
     // console.log("new comments: " + JSON.stringify(comments));
