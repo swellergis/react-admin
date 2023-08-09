@@ -49,14 +49,18 @@ const FormSimple = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-        if (user) {
-            setUsername(user.name);
-            // console.log("username: " + username);
-        }
+        const newUsername = user ? user.name : "unknown";
+        setUsername(newUsername);
+        // console.log("username: " + username);
+        // if (user) {
+        //     setUsername(user.name);
+        //     // console.log("username: " + username);
+        // }
 
         const testname = user ? user.name : "foo";
         // console.log("username: " + username);
         const url = "http://localhost:8080/usercomments/" + testname;
+        // const url = "http://localhost:8080/usercomments/" + username;
     
         try {
             const response = await fetch(url);
