@@ -7,7 +7,7 @@ import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
 
 const Contacts = () => {
-  const [data, setData] = useState("");
+  const [data, setData] = useState([]);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -52,7 +52,7 @@ const Contacts = () => {
         const json = await response.json();
         // console.log(json[0]);
         // console.log(json[0].city);
-        console.log(json);
+        // console.log(json);
         setData(json);
       } catch (error) {
         console.log("error", error);
