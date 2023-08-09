@@ -7,6 +7,7 @@ const useUser = () => {
     const [user, setUser] = useState(null);
     const [isOveraged, setIsOveraged] = useState(false);
     const isAuthenticated = useIsAuthenticated();
+    const [isLoading, setIsLoading] = useState(true);
 
     const currentUser = {
         name: '',
@@ -15,6 +16,7 @@ const useUser = () => {
 
     const onLoad = async () => {
         setUser(currentUser);
+        setIsLoading(false);
 
         const currentAccount = instance.getActiveAccount();
         if (currentAccount && currentAccount.username) {
@@ -38,10 +40,11 @@ const useUser = () => {
         } else {
             // user is not logged in
             setUser(null);
+            setIsLoading(false);
         }
     }, [instance, isAuthenticated]);
 
-    return { user };
+    return { user, isLoading };
 }
 
 export default useUser;

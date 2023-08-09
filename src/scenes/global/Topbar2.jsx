@@ -13,7 +13,7 @@ const Topbar2 = () => {
     const colors = tokens(theme.palette.mode);
     const colorMode = useContext(ColorModeContext);
     const isAuthenticated = useIsAuthenticated();
-    const { user } = useUser();
+    const { user, isLoading } = useUser();
   
     return (
         <Box display="flex" justifyContent="space-between" p={2} backgroundColor={colors.primary[900]}>

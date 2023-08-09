@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 
 export const RouteGuard = ({ Component, ...props }) => {
 
-    const { user } = useUser();
+    const { user, isLoading } = useUser();
   
     const [isAuthorized, setIsAuthorized] = useState(false);
 

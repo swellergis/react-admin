@@ -11,7 +11,7 @@ import MuiAlert from '@mui/material/Alert';
 
 const FormSimple = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
-  const { user } = useUser();
+  const { user, isLoading } = useUser();
   const [comments, setComments] = useState([]);
   const [username, setUsername] = useState("unknown");
   const [open, setOpen] = useState(false);
