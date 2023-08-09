@@ -1,20 +1,20 @@
 import React, { useEffect, useState, forwardRef } from "react";
 import CommentsList from '../../components/CommentsList';
 import { Box, Button, TextField } from "@mui/material";
-import { Formik, useFormikContext } from "formik";
+import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
-import useUser from '../../hooks/useUser';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
-const FormSimple = () => {
+const FormSimple = ({ user }) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
-  const { user, isLoading } = useUser();
   const [comments, setComments] = useState([]);
-  const [username, setUsername] = useState("unknown");
   const [open, setOpen] = useState(false);
+
+  // derive initial state from props
+  const [bar, setBar] = useState(user);
 
   const Alert = forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -29,7 +29,7 @@ const FormSimple = () => {
   };
 
   const handleFormSubmit = (values, { resetForm }) => {
-    values.empId = username;
+    values.empId = bar.name;
 
     const target = "http://localhost:8080/comments";
     fetch(target, {
@@ -48,19 +48,9 @@ const FormSimple = () => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-        const newUsername = user ? user.name : "unknown";
-        setUsername(newUsername);
-        // console.log("username: " + username);
-        // if (user) {
-        //     setUsername(user.name);
-        //     // console.log("username: " + username);
-        // }
-
-        const testname = user ? user.name : "foo";
-        // console.log("username: " + username);
-        const url = "http://localhost:8080/usercomments/" + testname;
-        // const url = "http://localhost:8080/usercomments/" + username;
+      const fetchData = async () => {
+        // console.log("current user name: " + user.name);
+        const url = "http://localhost:8080/usercomments/" + user.name;
     
         try {
             const response = await fetch(url);
@@ -74,6 +64,7 @@ const FormSimple = () => {
         }
     };
 
+    setBar(user);
     fetchData();
   }, [user]);
 
@@ -110,7 +101,7 @@ const FormSimple = () => {
                 label="User Name"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={username}
+                value={bar.name}
                 name="empId"
                 sx={{ gridColumn: "span 2" }}
               />

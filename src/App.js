@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import { Routes, Route } from "react-router-dom";
@@ -18,10 +18,22 @@ import Geography from "./scenes/geography";
 import HomePage from "./scenes/home";
 import RouteGuard from "./helpers/RouteGuard";
 import { securityGroups } from "./authConfig";
+import useUser from './hooks/useUser';
 
 const App = () => {
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);
+  const { user, isLoading } = useUser();
+  const [username, setUsername] = useState("unknown");
+
+  useEffect(() => {
+    const fetchData = async () => {
+        const newUsername = user ? user.name : "unknown";
+        setUsername(newUsername);
+    };
+
+    fetchData();
+  }, [user]);
 
   return (
     <ColorModeContext.Provider value={colorMode}>
@@ -46,7 +58,7 @@ const App = () => {
               <Route path="/team" element={<Team />} />
               <Route path="/contacts" element={<Contacts />} />
               <Route path="/invoices" element={<Invoices />} />
-              <Route path="/form" element={<FormSimple />} />
+              <Route path="/form" element={<FormSimple user={{"name":username}} />} />
               <Route path="/calendar" element={<Calendar />} />
               <Route path="/faq" element={<FAQ />} />
               <Route path="/bar" element={<Bar />} />
