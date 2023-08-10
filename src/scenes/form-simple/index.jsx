@@ -1,5 +1,4 @@
 import React, { useEffect, useState, forwardRef } from "react";
-import CommentsList from '../../components/CommentsList';
 import { Box, Button, TextField } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
@@ -11,10 +10,26 @@ import MuiAlert from '@mui/material/Alert';
 const FormSimple = ({ user }) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const [comments, setComments] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  // alert dialog
   const [open, setOpen] = useState(false);
 
-  // derive initial state from props
-  const [bar, setBar] = useState(user);
+  useEffect(() => {
+    // console.info("current user name: " + user.name);
+    const url = "http://localhost:8080/usercomments/" + user.name;
+
+    setLoading(true);
+    fetch(url)
+      .then((response) => response.json())
+      .then(setComments)
+      .then(() => setLoading(false))
+      .catch(setError);
+    // console.log(comments[0]);
+    // console.log(comments[0].text);
+    // console.log(comments);
+
+  }, [user]);
 
   const Alert = forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -29,17 +44,21 @@ const FormSimple = ({ user }) => {
   };
 
   const handleFormSubmit = (values, { resetForm }) => {
-    values.empId = bar.name;
+    // console.log(user.name);
+    values.empId = user.name;
 
+    // post user input
     const target = "http://localhost:8080/comments";
-    fetch(target, {
-        method: "POST",
-        body: JSON.stringify(values),
-        headers: { 'Content-Type': 'application/json' }
-    });
+    const opts = {
+      method: "POST",
+      body: JSON.stringify(values),
+      headers: { 'Content-Type': 'application/json' }
+    }
+    fetch(target, opts);
 
     resetForm();
 
+    // add new comment to our current list
     comments.push(values);
     // console.log("new comments: " + JSON.stringify(comments));
 
@@ -47,31 +66,14 @@ const FormSimple = ({ user }) => {
     setOpen(true);
   };
 
-  useEffect(() => {
-      const fetchData = async () => {
-        // console.log("current user name: " + user.name);
-        const url = "http://localhost:8080/usercomments/" + user.name;
-    
-        try {
-            const response = await fetch(url);
-            const json = await response.json();
-            // console.log(json[0]);
-            // console.log(json[0].text);
-            // console.log(json);
-            setComments(json);
-        } catch (error) {
-            console.log("error", error);
-        }
-    };
-
-    setBar(user);
-    fetchData();
-  }, [user]);
-
+  if (loading) return <h2>Loading...</h2>;
+  if (error) return <pre>{JSON.stringify(error)}</pre>;
+  if (!comments) return null;
+  
   return (
     <Box m="20px">
-      <Header title="CREATE COMMENT" subtitle="Create a New Comment" />
 
+      <Header title="CREATE COMMENT" subtitle="Create a New Comment" />
       <Formik
         onSubmit={handleFormSubmit}
         initialValues={initialValues}
@@ -101,7 +103,7 @@ const FormSimple = ({ user }) => {
                 label="User Name"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={bar.name}
+                value={user.name}
                 name="empId"
                 sx={{ gridColumn: "span 2" }}
               />
@@ -140,8 +142,17 @@ const FormSimple = ({ user }) => {
           </form>
         )}
       </Formik>
+
       <Box m="20px">
-        <CommentsList comments={comments} />
+        <CommentList
+          data={comments}
+          renderEmpty={<h3>no comment...</h3>}
+          renderItem={(comment) => (
+            <>
+              <p>{comment.id} Posted by: {comment.empId}<br /><b>{comment.title}</b><br />{comment.text}</p>
+            </>
+          )}
+        />
       </Box>
 
       <Snackbar open={open} autoHideDuration={6000} onClose={handleAlertClose}>
@@ -149,8 +160,10 @@ const FormSimple = ({ user }) => {
             New comment added...
         </Alert>
       </Snackbar>
+
     </Box>
   );
+
 };
 
 const checkoutSchema = yup.object().shape({
@@ -164,5 +177,20 @@ const initialValues = {
   title: "",
   text: "",
 };
+
+function CommentList({ data, renderItem, renderEmpty }) {
+  return !data.length ? (
+    renderEmpty
+  ) : (
+    <>
+    <h3>Comments:</h3>
+    {data.map((comment, index) => (
+        <div className="comment" key={index + ': ' + comment.text}>
+            {renderItem(comment)}
+        </div>
+    ))}
+    </>
+  );
+}
 
 export default FormSimple;
