@@ -26,7 +26,7 @@ const CommentsList = ({ comments }) => {
         <button onClick={createAccount} hidden>Create Account</button>
         {name.map((comment, index) => (
             <div className="comment" key={index + ': ' + comment.text}>
-                <p><b>{comment.title}</b><br />{comment.text}<br />Posted by: {comment.empId}</p>
+                <p>{comment.id}<br /><b>{comment.title}</b><br />{comment.text}</p>
             </div>
         ))}
         </>
