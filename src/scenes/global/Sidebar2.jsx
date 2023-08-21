@@ -173,6 +173,13 @@ const Sidebar2 = () => {
               setSelected={setSelected}
             />
             <Item
+              title="Request Status"
+              to="/status"
+              icon={<ContactsOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
               title="Partner Database Lookup"
               to="/contacts"
               icon={<ContactsOutlinedIcon />}
