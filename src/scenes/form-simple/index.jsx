@@ -143,7 +143,7 @@ const FormSimple = ({ user }) => {
         )}
       </Formik>
 
-      <Box m="20px">
+      <Box m="20px" sx={{ display: 'none' }}>
         <CommentList
           data={comments}
           renderEmpty={<h3>no comment...</h3>}
