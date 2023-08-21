@@ -73,7 +73,7 @@ const FormSimple = ({ user }) => {
   return (
     <Box m="20px">
 
-      <Header title="CREATE COMMENT" subtitle="Create a New Comment" />
+      <Header title="ZERO TRUST REQUEST" subtitle="Create a New Request" />
       <Formik
         onSubmit={handleFormSubmit}
         initialValues={initialValues}
@@ -136,7 +136,7 @@ const FormSimple = ({ user }) => {
             </Box>
             <Box display="flex" justifyContent="end" mt="20px">
               <Button type="submit" color="info" variant="contained">
-                Create New Comment
+                Submit Request
               </Button>
             </Box>
           </form>

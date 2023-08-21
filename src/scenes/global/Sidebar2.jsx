@@ -7,6 +7,7 @@ import { tokens } from "../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
+import DonutLargeIcon from "@mui/icons-material/DonutLarge";
 import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
@@ -166,7 +167,7 @@ const Sidebar2 = () => {
               Pages
             </Typography>
             <Item
-              title="Comment Form"
+              title="Access Request"
               to="/form"
               icon={<PersonOutlinedIcon />}
               selected={selected}
@@ -175,7 +176,7 @@ const Sidebar2 = () => {
             <Item
               title="Request Status"
               to="/status"
-              icon={<ContactsOutlinedIcon />}
+              icon={<DonutLargeIcon />}
               selected={selected}
               setSelected={setSelected}
             />
