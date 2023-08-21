@@ -9,7 +9,7 @@ import MuiAlert from '@mui/material/Alert';
 
 const FormSimple = ({ user }) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
-  const [comments, setComments] = useState([]);
+  const [requests, setRequests] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   // alert dialog
@@ -17,17 +17,17 @@ const FormSimple = ({ user }) => {
 
   useEffect(() => {
     // console.info("current user name: " + user.name);
-    const url = "http://localhost:8080/usercomments/" + user.name;
+    const url = "http://localhost:8080/userrequests/" + user.name;
 
     setLoading(true);
     fetch(url)
       .then((response) => response.json())
-      .then(setComments)
+      .then(setRequests)
       .then(() => setLoading(false))
       .catch(setError);
-    // console.log(comments[0]);
-    // console.log(comments[0].text);
-    // console.log(comments);
+    // console.log(requests[0]);
+    // console.log(requests[0].justification);
+    // console.log(requests);
 
   }, [user]);
 
@@ -48,7 +48,7 @@ const FormSimple = ({ user }) => {
     values.empId = user.name;
 
     // post user input
-    const target = "http://localhost:8080/comments";
+    const target = "http://localhost:8080/requests";
     const opts = {
       method: "POST",
       body: JSON.stringify(values),
@@ -58,9 +58,9 @@ const FormSimple = ({ user }) => {
 
     resetForm();
 
-    // add new comment to our current list
-    comments.push(values);
-    // console.log("new comments: " + JSON.stringify(comments));
+    // add new request to our current list
+    requests.push(values);
+    // console.log("new requests: " + JSON.stringify(requests));
 
     // show success dialog
     setOpen(true);
@@ -68,12 +68,12 @@ const FormSimple = ({ user }) => {
 
   if (loading) return <h2>Loading...</h2>;
   if (error) return <pre>{JSON.stringify(error)}</pre>;
-  if (!comments) return null;
+  if (!requests) return null;
   
   return (
     <Box m="20px">
 
-      <Header title="ZERO TRUST REQUEST" subtitle="Create a New Request" />
+      <Header title="ZERO TRUST ACCESS REQUEST" subtitle="Create a New Request" />
       <Formik
         onSubmit={handleFormSubmit}
         initialValues={initialValues}
@@ -100,37 +100,65 @@ const FormSimple = ({ user }) => {
                 fullWidth
                 variant="filled"
                 type="text"
-                label="User Name"
+                label="First Name"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={user.name}
-                name="empId"
+                value={values.firstName}
+                name="firstName"
+                error={!!touched.firstName && !!errors.firstName}
+                helperText={touched.firstName && errors.firstName}
                 sx={{ gridColumn: "span 2" }}
               />
               <TextField
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Title"
+                label="Last Name"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.title}
-                name="title"
-                error={!!touched.title && !!errors.title}
-                helperText={touched.title && errors.title}
+                value={values.lastName}
+                name="lastName"
+                error={!!touched.lastName && !!errors.lastName}
+                helperText={touched.lastName && errors.lastName}
                 sx={{ gridColumn: "span 2" }}
               />
               <TextField
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Comment"
+                label="SSN"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.text}
-                name="text"
-                error={!!touched.text && !!errors.text}
-                helperText={touched.text && errors.text}
+                value={values.ssn}
+                name="ssn"
+                error={!!touched.ssn && !!errors.ssn}
+                helperText={touched.ssn && errors.ssn}
+                sx={{ gridColumn: "span 2" }}
+              />
+              <TextField
+                fullWidth
+                variant="filled"
+                type="text"
+                label="DOB"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                value={values.dob}
+                name="dob"
+                error={!!touched.dob && !!errors.dob}
+                helperText={touched.dob && errors.dob}
+                sx={{ gridColumn: "span 2" }}
+              />
+              <TextField
+                fullWidth
+                variant="filled"
+                type="text"
+                label="Justification"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                value={values.justification}
+                name="justification"
+                error={!!touched.justification && !!errors.justification}
+                helperText={touched.justification && errors.justification}
                 sx={{ gridColumn: "span 4" }}
               />
             </Box>
@@ -144,12 +172,16 @@ const FormSimple = ({ user }) => {
       </Formik>
 
       <Box m="20px" sx={{ display: 'none' }}>
-        <CommentList
-          data={comments}
-          renderEmpty={<h3>no comment...</h3>}
-          renderItem={(comment) => (
+        <RequestList
+          data={requests}
+          renderEmpty={<h3>no pending requests...</h3>}
+          renderItem={(request) => (
             <>
-              <p>{comment.id} Posted by: {comment.empId}<br /><b>{comment.title}</b><br />{comment.text}</p>
+              <p>
+                {request.id} Posted by: {request.empId}<br />
+                <b>{request.lastName}</b><br />
+                {request.justification}
+              </p>
             </>
           )}
         />
@@ -157,7 +189,7 @@ const FormSimple = ({ user }) => {
 
       <Snackbar open={open} autoHideDuration={6000} onClose={handleAlertClose}>
         <Alert onClose={handleAlertClose} severity="success" sx={{ width: '100%' }}>
-            New comment added...
+            New request added...
         </Alert>
       </Snackbar>
 
@@ -167,26 +199,31 @@ const FormSimple = ({ user }) => {
 };
 
 const checkoutSchema = yup.object().shape({
-//   empId: yup.string().required("required"),
-  title: yup.string().required("required"),
-  text: yup.string().required("required"),
+  firstName: yup.string().required("required"),
+  lastName: yup.string().required("required"),
+  ssn: yup.string().required("required"),
+  dob: yup.string().required("required"),
+  justification: yup.string().required("required"),
 });
 
 const initialValues = {
   empId: "",
-  title: "",
-  text: "",
+  firstName: "",
+  lastName: "",
+  ssn: "",
+  dob: "",
+  justification: "",
 };
 
-function CommentList({ data, renderItem, renderEmpty }) {
+function RequestList({ data, renderItem, renderEmpty }) {
   return !data.length ? (
     renderEmpty
   ) : (
     <>
-    <h3>Comments:</h3>
-    {data.map((comment, index) => (
-        <div className="comment" key={index + ': ' + comment.text}>
-            {renderItem(comment)}
+    <h3>In-Progress:</h3>
+    {data.map((request, index) => (
+        <div className="request" key={index + ': ' + request.justification}>
+            {renderItem(request)}
         </div>
     ))}
     </>
