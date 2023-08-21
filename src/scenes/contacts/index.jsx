@@ -12,7 +12,7 @@ const Contacts = () => {
   const colors = tokens(theme.palette.mode);
 
   const columns = [
-    { field: "id", headerName: "ID", flex: 0.5 },
+    // { field: "id", headerName: "ID", flex: 0.5 },
     // { field: "registrarId", headerName: "Registrar ID" },
     {
       field: "firstName",
@@ -26,16 +26,16 @@ const Contacts = () => {
       flex: 1,
       cellClassName: "name-column--cell",
     },
+    // {
+    //   field: "dob",
+    //   headerName: "DOB",
+    //   // type: "number",
+    //   headerAlign: "left",
+    //   align: "left",
+    // },
     {
-      field: "dob",
-      headerName: "DOB",
-      // type: "number",
-      headerAlign: "left",
-      align: "left",
-    },
-    {
-      field: "city",
-      headerName: "City",
+      field: "ssn",
+      headerName: "SSN",
       flex: 1,
     },
   ];
@@ -65,8 +65,8 @@ const Contacts = () => {
   return (
     <Box m="20px">
       <Header
-        title="CONTACTS"
-        subtitle="List of Contacts for Future Reference"
+        title="PARTNERS"
+        subtitle="List of Partners for Future Reference"
       />
       <Box
         m="40px 0 0 0"
