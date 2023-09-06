@@ -53,7 +53,7 @@ export const RouteGuard = ({ Component, ...props }) => {
                         variant="h2" 
                         color="silver" 
                     >
-                        You need to sign in to access this content.
+                        You must sign in to view this page...
                     </Typography>
                 </div>
             </UnauthenticatedTemplate>

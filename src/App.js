@@ -57,7 +57,7 @@ const App = () => {
                 }
               />
               <Route path="/team" element={<Team />} />
-              <Route path="/contacts" element={<Contacts />} />
+              <Route path="/contacts" element={<Contacts user={{"name":username}} />} />
               <Route path="/status" element={<RequestStatus user={{"name":username}} />} />
               <Route path="/invoices" element={<Invoices />} />
               <Route path="/form" element={<FormSimple user={{"name":username}} />} />

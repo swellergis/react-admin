@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import Typography from '@mui/material/Typography';
 import { tokens } from "../../theme";
 import { mockDataContacts } from "../../data/mockData";
 import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
 
-const Contacts = () => {
+const Contacts = ({ user }) => {
   const [data, setData] = useState([]);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -61,7 +62,18 @@ const Contacts = () => {
     };
 
     fetchData();
-  }, []);
+  }, [user]);
+
+  if (user.name === 'unknown') {
+    return <Typography 
+      mt="10px"
+      align="center" 
+      variant="h2" 
+      color="silver" 
+    >
+      You must sign in to view this page...
+    </Typography>
+  }
 
   return (
     <Box m="20px">

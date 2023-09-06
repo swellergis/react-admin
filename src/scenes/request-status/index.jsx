@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Box } from "@mui/material";
+import Typography from '@mui/material/Typography';
 import Header from "../../components/Header";
 
 const RequestStatus = ({ user }) => {
@@ -24,8 +25,18 @@ const RequestStatus = ({ user }) => {
 
   }, [user]);
 
-  if (loading) return <h2>Loading...</h2>;
+  if (loading) return <h2>...</h2>;
   if (error) return <pre>{JSON.stringify(error)}</pre>;
+  if (user.name === 'unknown') {
+    return <Typography 
+      mt="10px"
+      align="center" 
+      variant="h2" 
+      color="silver" 
+    >
+      You must sign in to view this page...
+    </Typography>
+  }
   if (!requests) return null;
   
   return (

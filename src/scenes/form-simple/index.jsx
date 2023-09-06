@@ -6,6 +6,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import Typography from '@mui/material/Typography';
 
 const FormSimple = ({ user }) => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
@@ -68,8 +69,18 @@ const FormSimple = ({ user }) => {
     setOpen(true);
   };
 
-  if (loading) return <h2>Loading...</h2>;
+  if (loading) return <h2>...</h2>;
   if (error) return <pre>{JSON.stringify(error)}</pre>;
+  if (user.name === 'unknown') {
+    return <Typography 
+      mt="10px"
+      align="center" 
+      variant="h2" 
+      color="silver" 
+    >
+      You must sign in to view this page...
+    </Typography>
+  }
   if (!requests) return null;
   
   return (
