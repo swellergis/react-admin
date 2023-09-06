@@ -10,6 +10,7 @@ const RequestStatus = ({ user }) => {
   useEffect(() => {
     // console.info("current user name: " + user.name);
     const url = "http://localhost:8080/userrequests/" + user.name;
+    // const url = "https://lumenapi.eastus.cloudapp.azure.com:8443/userrequests/" + user.name;
 
     setLoading(true);
     fetch(url)

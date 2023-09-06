@@ -18,6 +18,7 @@ const FormSimple = ({ user }) => {
   useEffect(() => {
     // console.info("current user name: " + user.name);
     const url = "http://localhost:8080/userrequests/" + user.name;
+    // const url = "https://lumenapi.eastus.cloudapp.azure.com:8443/userrequests/" + user.name;
 
     setLoading(true);
     fetch(url)
@@ -49,6 +50,7 @@ const FormSimple = ({ user }) => {
 
     // post user input
     const target = "http://localhost:8080/requests";
+    // const target = "https://lumenapi.eastus.cloudapp.azure.com:8443/requests";
     const opts = {
       method: "POST",
       body: JSON.stringify(values),

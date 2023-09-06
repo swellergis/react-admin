@@ -45,6 +45,7 @@ const Contacts = () => {
     // const url = "http://localhost:8080/jpa-basic/rest/customer";
     // vertx
     const url = "http://localhost:8080/customers";
+    // const url = "https://lumenapi.eastus.cloudapp.azure.com:8443/customers";
 
     const fetchData = async () => {
       try {
